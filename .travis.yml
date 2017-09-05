@@ -1,0 +1,10 @@
+language: r
+sudo: required
+dist: trusty
+bioc_required: true
+cache: packages
+addons:
+  apt:
+    packages:
+      - libgsl-dev
+      - libsdl1.2-dev
