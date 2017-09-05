@@ -881,12 +881,12 @@ setMethod(
 setGeneric("compentropy", function(object) standardGeneric("compentropy"))
 
 setMethod(
-  "initialize",
+  "compentropy",
   signature = "Ltree",
-  definition = function(.Object, sc ){
-    .Object@sc <- sc
-    validObject(.Object)
-    return(.Object)
+  definition = function(object){
+    probs   <- t(t(object@sc@ndata)/apply(object@sc@ndata,2,sum))
+    object@entropy <- -apply(probs*log(probs)/log(nrow(object@sc@ndata)),2,sum)
+    return(object)
   }
 )
 
@@ -1567,29 +1567,3 @@ setMethod(
     return( list(n=n,scl=scl,k=k,diffgenes=z) )
   }
 )
-
-#' @import ggplot2
-plot_stemid <- function(object) {
-  cent <- object@sc@fdata[,compmedoids(object@sc@fdata,object@sc@cpart)]
-  dc <- as.data.frame(1 - stats::cor(cent))
-  names(dc) <- sort(unique(object@sc@cpart))
-  rownames(dc) <- sort(unique(object@sc@cpart))
-  trl <- vegan::spantree(dc[object@ldata$m,object@ldata$m])
-
-  u <- object@ltcoord[,1]
-  v <- object@ltcoord[,2]
-  cnl <- object@ldata$cnl
-  lp <- object@ldata$lp
-
-  lines <- data.frame(from = cnl[seq_along(trl$kid)+1,], to = cnl[trl$kid,])
-
-  ggplot() +
-    geom_point(aes(u, v), col = "gray", size = 2) +
-    geom_text(aes(u, v, label = lp, colour = factor(lp))) +
-    geom_point(aes(V1, V2), cnl, shape = 1, size = 2) +
-    geom_segment(aes(x = from.V1, xend = to.V1, y = from.V2, yend = to.V2), lines) +
-    geom_text(aes(V1, V2, label = seq_len(nrow(cnl))), cnl, size = 10) +
-    labs(x = "Dim 1", y = "Dim 2") +
-    scale_colour_manual(values = object@sc@fcol) +
-    theme(legend.position = "none")
-}
