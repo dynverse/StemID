@@ -851,7 +851,8 @@ Ltree <- setClass(
     ltcoord = "matrix",
     prtree = "list",
     sigcell = "vector",
-    cdata = "list"
+    cdata = "list",
+    trl = "list"
   )
 )
 
@@ -1266,7 +1267,27 @@ setMethod(
   }
 )
 
+setGeneric("compspantree", function(object) standardGeneric("compspantree"))
 
+#' @importFrom vegan spantree
+setMethod(
+  "compspantree",
+  signature = "Ltree",
+  definition = function(object) {
+    medoids <- compmedoids(object@sc@fdata, object@sc@cpart)
+    cent <- object@sc@fdata[,medoids]
+    dc <- as.data.frame(1 - cor(cent))
+    names(dc) <- sort(unique(object@sc@cpart))
+    rownames(dc) <- sort(unique(object@sc@cpart))
+    trl <- vegan::spantree(dc[object@ldata$m,object@ldata$m])
+    object@trl <- list(
+      dc = dc,
+      cent = cent,
+      trl = trl
+    )
+    object
+  }
+)
 
 setGeneric("plotmap", function(object) standardGeneric("plotmap"))
 
