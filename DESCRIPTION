@@ -3,7 +3,7 @@ Title: De Novo Prediction of Stem Cell Identity using Single-Cell Transcriptome 
 Version: 0.0.0.9000
 Authors@R: person("Dominic", "Grün", email = "first.last@example.com", role = c("aut", "cre"))
 Description: De Novo Prediction of Stem Cell Identity using Single-Cell Transcriptome Data.
-Depends: R (>= 3.4.1)
+Depends: R (>= 3.4.0)
 License: GPL-2
 Encoding: UTF-8
 LazyData: true
