@@ -21,3 +21,6 @@ Imports:
   tsne,
   vegan
 RoxygenNote: 6.0.1
+Collate: 
+    'stemid.R'
+    'ltree.R'
