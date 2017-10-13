@@ -1,8 +1,12 @@
+#' SCseq class
+#'
 #' @import stats
 #' @import graphics
 #' @import grDevices
 #' @import pheatmap
 #' @import RColorBrewer
+#'
+#' @exportClass SCseq
 SCseq <- setClass(
   "SCseq",
   slots = c(
@@ -54,7 +58,11 @@ setMethod(
   }
 )
 
-setGeneric("filterdata", function(object, mintotal=3000, minexpr=5, minnumber=1, maxexpr=Inf, downsample=TRUE, dsn=1, rseed=17000) standardGeneric("filterdata"))
+#' @export
+setGeneric(
+  "filterdata",
+  function(object, mintotal=3000, minexpr=5, minnumber=1, maxexpr=Inf, downsample=TRUE, dsn=1, rseed=17000) standardGeneric("filterdata")
+)
 
 setMethod(
   "filterdata",
@@ -521,7 +529,12 @@ setMethod(
   }
 )
 
-setGeneric("findoutliers", function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.95) standardGeneric("findoutliers"))
+#' @export
+setGeneric(
+  "findoutliers",
+  function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.95)
+    standardGeneric("findoutliers")
+)
 
 
 setMethod(
@@ -654,8 +667,11 @@ setMethod(
   }
 )
 
-
-setGeneric("comptsne", function(object,rseed=15555,sammonmap=FALSE,initial_cmd=TRUE,...) standardGeneric("comptsne"))
+#' @export
+setGeneric(
+  "comptsne",
+  function(object,rseed=15555,sammonmap=FALSE,initial_cmd=TRUE,...) standardGeneric("comptsne")
+)
 
 #' @importFrom MASS sammon
 #' @importFrom tsne tsne
@@ -837,7 +853,7 @@ setMethod(
 
 
 
-## class definition
+#' @exportClass Ltree
 Ltree <- setClass(
   "Ltree",
   slots = c(
@@ -879,7 +895,12 @@ setMethod(
   }
 )
 
-setGeneric("compentropy", function(object) standardGeneric("compentropy"))
+#' @export
+setGeneric(
+  "compentropy",
+  function(object)
+    standardGeneric("compentropy")
+)
 
 setMethod(
   "compentropy",
@@ -952,7 +973,12 @@ pdishuffle <- function(pdi,lp,cn,m,all=FALSE){
   }
 }
 
-setGeneric("projcells", function(object,cthr=0,nmode=FALSE) standardGeneric("projcells"))
+#' @export
+setGeneric(
+  "projcells",
+  function(object,cthr=0,nmode=FALSE)
+    standardGeneric("projcells")
+)
 
 setMethod(
   "projcells",
@@ -1005,8 +1031,12 @@ setMethod(
 
 
 
-
-setGeneric("projback", function(object,pdishuf=2000,nmode=FALSE,rseed=17000) standardGeneric("projback"))
+#' @export
+setGeneric(
+  "projback",
+  function(object,pdishuf=2000,nmode=FALSE,rseed=17000)
+    standardGeneric("projback")
+)
 
 setMethod(
   "projback",
@@ -1036,11 +1066,12 @@ setMethod(
   }
 )
 
-
-
-
-
-setGeneric("lineagetree", function(object,pthr=0.01,nmode=FALSE) standardGeneric("lineagetree"))
+#' @export
+setGeneric(
+  "lineagetree",
+  function(object,pthr=0.01,nmode=FALSE)
+    standardGeneric("lineagetree")
+)
 
 setMethod(
   "lineagetree",
@@ -1267,7 +1298,12 @@ setMethod(
   }
 )
 
-setGeneric("compspantree", function(object) standardGeneric("compspantree"))
+#' @export
+setGeneric(
+  "compspantree",
+  function(object)
+    standardGeneric("compspantree")
+)
 
 #' @importFrom vegan spantree
 setMethod(
@@ -1289,7 +1325,11 @@ setMethod(
   }
 )
 
-setGeneric("plotmap", function(object) standardGeneric("plotmap"))
+setGeneric(
+  "plotmap",
+  function(object)
+    standardGeneric("plotmap")
+)
 
 #' @importFrom vegan spantree
 setMethod(
@@ -1318,8 +1358,11 @@ setMethod(
   }
 )
 
-
-setGeneric("plottree", function(object,showCells=TRUE,nmode=FALSE,scthr=0) standardGeneric("plottree"))
+setGeneric(
+  "plottree",
+  function(object,showCells=TRUE,nmode=FALSE,scthr=0)
+    standardGeneric("plottree")
+)
 
 setMethod(
   "plottree",
