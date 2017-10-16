@@ -501,7 +501,11 @@ clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=FALSE,sat=TR
   }
 }
 
-setGeneric("clustexp", function(object,clustnr=20,bootnr=50,metric="pearson",do.gap=FALSE,sat=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,FUNcluster="kmedoids") standardGeneric("clustexp"))
+#' @export
+setGeneric(
+  "clustexp",
+  function(object,clustnr=20,bootnr=50,metric="pearson",do.gap=FALSE,sat=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,FUNcluster="kmedoids")
+    standardGeneric("clustexp"))
 
 
 setMethod(

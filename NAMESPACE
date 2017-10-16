@@ -2,6 +2,7 @@
 
 export(Ltree)
 export(SCseq)
+export(clustexp)
 export(compentropy)
 export(compspantree)
 export(comptsne)
