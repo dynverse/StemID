@@ -1,3 +1,20 @@
+#' Lineage tree
+#'
+#' @slot sc SCseq object
+#' @slot ldata ?
+#' @slot entropy ?
+#' @slot trproj ?
+#' @slot par ?
+#' @slot prback ?
+#' @slot prbacka ?
+#' @slot ltcoord ?
+#' @slot prtree ?
+#' @slot sigcell ?
+#' @slot cdata ?
+#' @slot trl ?
+#'
+#' @name Ltree-class
+#' @rdname Ltree-class
 #' @export Ltree
 #' @exportClass Ltree
 #' @include stemid.R
@@ -31,6 +48,10 @@ setValidity(
   }
 )
 
+#' Constructor method of class Ltree
+#'
+#' @name Ltree
+#' @rdname Ltree-class
 #' @importFrom methods validObject new
 setMethod(
   "initialize",
@@ -42,13 +63,18 @@ setMethod(
   }
 )
 
-#' @export
+#' Method compentropy
+#' @name compentropy
+#' @rdname compentropy-methods
+#' @exportMethod compentropy
 setGeneric(
   "compentropy",
   function(object)
     standardGeneric("compentropy")
 )
 
+#' @rdname compentropy-methods
+#' @aliases compentropy,Ltree-method
 setMethod(
   "compentropy",
   signature = "Ltree",
@@ -120,13 +146,24 @@ pdishuffle <- function(pdi,lp,cn,m,all=FALSE){
   }
 }
 
-#' @export
+
+#' Method projcells
+#'
+#' @param object ltree object
+#' @param cthr TODO
+#' @param nmode TODO
+#'
+#' @name projcells
+#' @rdname projcells-methods
+#' @exportMethod projcells
 setGeneric(
   "projcells",
   function(object,cthr=0,nmode=FALSE)
     standardGeneric("projcells")
 )
 
+#' @rdname projcells-methods
+#' @aliases projcells,Ltree-method
 setMethod(
   "projcells",
   signature = "Ltree",
@@ -175,16 +212,24 @@ setMethod(
   }
 )
 
-
-
-
-#' @export
+#' Method projback
+#'
+#' @param object ltree object
+#' @param pdishuf number of pdishuffles
+#' @param nmode if false, won't pdishuffle
+#' @param rseed sed to be set
+#'
+#' @name projback
+#' @rdname projback-methods
+#' @exportMethod projback
 setGeneric(
   "projback",
   function(object,pdishuf=2000,nmode=FALSE,rseed=17000)
     standardGeneric("projback")
 )
 
+#' @rdname projback-methods
+#' @aliases projback,Ltree-method
 setMethod(
   "projback",
   signature = "Ltree",
@@ -213,13 +258,23 @@ setMethod(
   }
 )
 
-#' @export
+#' Method lineagetree
+#'
+#' @param object Ltree object
+#' @param pthr ?
+#' @param nmode ?
+#'
+#' @name lineagetree
+#' @rdname lineagetree-methods
+#' @exportMethod lineagetree
 setGeneric(
   "lineagetree",
   function(object,pthr=0.01,nmode=FALSE)
     standardGeneric("lineagetree")
 )
 
+#' @rdname lineagetree-methods
+#' @aliases lineagetree,Ltree-method
 setMethod(
   "lineagetree",
   signature = "Ltree",
@@ -445,13 +500,18 @@ setMethod(
   }
 )
 
-#' @export
+#' Method compspantree
+#' @name compspantree
+#' @rdname compspantree-methods
+#' @exportMethod compspantree
 setGeneric(
   "compspantree",
   function(object)
     standardGeneric("compspantree")
 )
 
+#' @rdname compspantree-methods
+#' @aliases compspantree,Ltree-method
 #' @importFrom vegan spantree
 setMethod(
   "compspantree",
@@ -522,7 +582,7 @@ setMethod(
 
 
     ramp <- colorRamp(c("darkgreen", "yellow", "brown"))
-    mcol <- rgb( ramp(seq(0, 1, length = 101)), max = 255)
+    mcol <- rgb( ramp(seq(0, 1, length = 101)), maxColorValue = 255)
     co <- object@cdata
     fc <- (co$counts/( co$counts.br + .5))*(co$pv.e < object@par$pethr)
     fc <- fc*(fc > t(fc)) + t(fc)*(t(fc) >= fc)
@@ -556,7 +616,7 @@ setMethod(
     cnl <- object@ldata$cnl
     u <- object@ltcoord[,1]
     v <- object@ltcoord[,2]
-    layout( cbind(c(1, 1), c(2, 3)),widths=c(5,1,1),height=c(5,5,1))
+    layout( cbind(c(1, 1), c(2, 3)),widths=c(5,1,1),heights=c(5,5,1))
     par(mar = c(12,5,1,1))
 
     if ( showCells ){
@@ -587,7 +647,7 @@ setMethod(
     ma <- max(en[,2],na.rm=TRUE)
     w <- round((en[,2] - mi)/(ma - mi)*99 + 1,0)
     ramp <- colorRamp(c("red","orange", "pink","purple", "blue"))
-    ColorRamp <- rgb( ramp(seq(0, 1, length = 101)), max = 255)
+    ColorRamp <- rgb( ramp(seq(0, 1, length = 101)), maxColorValue = 255)
     ColorLevels <- seq(mi, ma, length=length(ColorRamp))
     if ( mi == ma ){
       ColorLevels <- seq(0.99*mi, 1.01*ma, length=length(ColorRamp))

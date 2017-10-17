@@ -4,7 +4,48 @@
 \name{SCseq-class}
 \alias{SCseq-class}
 \alias{SCseq}
+\alias{SCseq}
 \title{SCseq class}
+\usage{
+\S4method{initialize}{SCseq}(.Object, expdata)
+}
+\arguments{
+\item{expdata}{Expression data}
+
+\item{SCseq}{scseq object}
+}
 \description{
 SCseq class
+
+Constructor method of class SCseq
 }
+\section{Slots}{
+
+\describe{
+\item{\code{expdata}}{Expression data}
+
+\item{\code{ndata}}{cell data?}
+
+\item{\code{fdata}}{feature data}
+
+\item{\code{distances}}{distances between cells?}
+
+\item{\code{tsne}}{tsne dimred}
+
+\item{\code{cluster}}{clustering}
+
+\item{\code{background}}{?}
+
+\item{\code{out}}{?}
+
+\item{\code{cpart}}{?}
+
+\item{\code{fcol}}{?}
+
+\item{\code{filterpar}}{?}
+
+\item{\code{clusterpar}}{?}
+
+\item{\code{outlierpar}}{?}
+}}
+

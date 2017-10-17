@@ -1,11 +1,28 @@
 #' SCseq class
 #'
+#' @param expdata Expression data
+#' @slot expdata Expression data
+#' @slot ndata cell data?
+#' @slot fdata feature data
+#' @slot distances distances between cells?
+#' @slot tsne tsne dimred
+#' @slot cluster clustering
+#' @slot background ?
+#' @slot out ?
+#' @slot cpart ?
+#' @slot fcol ?
+#' @slot filterpar ?
+#' @slot clusterpar ?
+#' @slot outlierpar ?
+#'
 #' @import stats
 #' @import graphics
 #' @import grDevices
 #' @import pheatmap
 #' @import RColorBrewer
 #'
+#' @name SCseq-class
+#' @rdname SCseq-class
 #' @export SCseq
 #' @exportClass SCseq
 SCseq <- setClass(
@@ -47,6 +64,12 @@ setValidity(
   }
 )
 
+#' Constructor method of class SCseq
+#'
+#' @param SCseq scseq object
+#'
+#' @name SCseq
+#' @rdname SCseq-class
 setMethod(
   "initialize",
   signature = "SCseq",
@@ -59,12 +82,17 @@ setMethod(
   }
 )
 
-#' @export
+#' Method filterdata
+#' @name filterdata
+#' @rdname filterdata-methods
+#' @exportMethod filterdata
 setGeneric(
   "filterdata",
   function(object, mintotal=3000, minexpr=5, minnumber=1, maxexpr=Inf, downsample=TRUE, dsn=1, rseed=17000) standardGeneric("filterdata")
 )
 
+#' @rdname filterdata-methods
+#' @aliases filterdata,SCseq-method
 setMethod(
   "filterdata",
   signature = "SCseq",
@@ -183,7 +211,7 @@ setMethod(
     d <- b[2,1] - b[1,1]
     y <- 0
     for ( i in 1:max(p) ) y <- append(y,b[sum(p <=i),1] + d/2)
-    axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,lab=1:max(p))
+    axis(1,at=(y[1:(length(y)-1)] + y[-1])/2,labels=1:max(p))
     box()
   }
 )
@@ -275,7 +303,7 @@ plotdiffgenes <- function(z,gene){
   u <- 1:length(x)
   rect(u - .5,0,u + .5,x,col="red")
   v <- c(min(u) - .5,max(u) + .5)
-  axis(1,at=mean(v),lab=paste(z$cl1n,collapse=","))
+  axis(1,at=mean(v),labels = paste(z$cl1n,collapse=","))
   lines(v,rep(mean(x),length(v)))
   lines(v,rep(mean(x)-sqrt(var(x)),length(v)),lty=2)
   lines(v,rep(mean(x)+sqrt(var(x)),length(v)),lty=2)
@@ -283,7 +311,7 @@ plotdiffgenes <- function(z,gene){
   u <- ( length(x) + 1 ):length(c(x,y))
   v <- c(min(u) - .5,max(u) + .5)
   rect(u - .5,0,u + .5,y,col="blue")
-  axis(1,at=mean(v),lab=paste(z$cl2n,collapse=","))
+  axis(1,at=mean(v),labels = paste(z$cl2n,collapse=","))
   lines(v,rep(mean(y),length(v)))
   lines(v,rep(mean(y)-sqrt(var(y)),length(v)),lty=2)
   lines(v,rep(mean(y)+sqrt(var(y)),length(v)),lty=2)
@@ -501,13 +529,17 @@ clustfun <- function(x,clustnr=20,bootnr=50,metric="pearson",do.gap=FALSE,sat=TR
   }
 }
 
-#' @export
+#' Method clustexp
+#' @name clustexp
+#' @rdname clustexp-methods
+#' @exportMethod clustexp
 setGeneric(
   "clustexp",
   function(object,clustnr=20,bootnr=50,metric="pearson",do.gap=FALSE,sat=TRUE,SE.method="Tibs2001SEmax",SE.factor=.25,B.gap=50,cln=0,rseed=17000,FUNcluster="kmedoids")
     standardGeneric("clustexp"))
 
-
+#' @rdname clustexp-methods
+#' @aliases clustexp,SCseq-method
 setMethod(
   "clustexp",
   signature = "SCseq",
@@ -534,14 +566,18 @@ setMethod(
   }
 )
 
-#' @export
+#' Method findoutliers
+#' @name findoutliers
+#' @rdname findoutliers-methods
+#' @exportMethod findoutliers
 setGeneric(
   "findoutliers",
   function(object,outminc=5,outlg=2,probthr=1e-3,thr=2**-(1:40),outdistquant=.95)
     standardGeneric("findoutliers")
 )
 
-
+#' @rdname findoutliers-methods
+#' @aliases findoutliers,SCseq-method
 setMethod(
   "findoutliers",
   signature = "SCseq",
@@ -672,12 +708,17 @@ setMethod(
   }
 )
 
-#' @export
+#' Method comptsne
+#' @name comptsne
+#' @rdname comptsne-methods
+#' @exportMethod comptsne
 setGeneric(
   "comptsne",
   function(object,rseed=15555,sammonmap=FALSE,initial_cmd=TRUE,...) standardGeneric("comptsne")
 )
 
+#' @rdname comptsne-methods
+#' @aliases comptsne,SCseq-method
 #' @importFrom MASS sammon
 #' @importFrom tsne tsne
 setMethod(
@@ -840,8 +881,8 @@ setMethod(
       points(ol,rep(0,length(ol)),col=col[cclmo[u]],pch=15,cex=.75)
       tmp <- append(tmp,mean(ol))
     }
-    axis(1,at=tmp,lab=cclmo)
-    axis(2,at=tmp,lab=cclmo)
+    axis(1,at=tmp,labels = cclmo)
+    axis(2,at=tmp,labels = cclmo)
     par(mar = c(3,2.5,2.5,2))
     image(1, ColorLevels,
           matrix(data=ColorLevels, ncol=length(ColorLevels),nrow=1),
