@@ -617,13 +617,13 @@ setMethod(
     stest <- rep(0,length(thr))
     cprobs <- c()
     for ( n in 1:max(object@cluster$kpart) ){
-      if ( sum(object@cluster$kpart == n) == 1 ){
+      x <- object@fdata[,object@cluster$kpart == n,drop=F]
+      x <- x[apply(x,1,max) > outminc,,drop=F]
+      if ( nrow(x) == 1 ){
         cprobs <- append(cprobs,.5)
-        names(cprobs)[length(cprobs)] <- names(object@cluster$kpart)[object@cluster$kpart == n]
+        names(cprobs)[length(cprobs)] <- rownames(x)
         next
       }
-      x <- object@fdata[,object@cluster$kpart == n]
-      x <- x[apply(x,1,max) > outminc,]
       z <- t( apply(x,1,function(x){ apply( cbind( pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) , 1 - pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) ),1, min) } ) )
       cp <- apply(z,2,function(x){ y <- p.adjust(x,method="BH"); y <- y[order(y,decreasing=FALSE)]; return(y[outlg]);})
       f <- cp < probthr
