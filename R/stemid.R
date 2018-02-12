@@ -625,7 +625,14 @@ setMethod(
         next
       }
       z <- t( apply(x,1,function(x){ apply( cbind( pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) , 1 - pnbinom(round(x,0),mu=mean(x),size=object@background$lsize(mean(x),object)) ),1, min) } ) )
-      cp <- apply(z,2,function(x){ y <- p.adjust(x,method="BH"); y <- y[order(y,decreasing=FALSE)]; return(y[outlg]);})
+
+      if(nrow(z) == 1) {
+        cp <- setNames(rep(1, ncol(z)),colnames(z))
+      } else {
+        cp <- apply(z,2,function(x){ y <- p.adjust(x,method="BH"); y <- y[order(y,decreasing=FALSE)]; return(y[outlg]);})
+      }
+
+
       f <- cp < probthr
       cprobs <- append(cprobs,cp)
       if ( sum(f) > 0 ) out <- append(out,names(x)[f])
